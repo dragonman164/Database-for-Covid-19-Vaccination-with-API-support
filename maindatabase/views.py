@@ -44,24 +44,7 @@ class PersonList(APIView):
         return Response(serializer.data)
 
     def put(self,request,*args,**kwargs):
-        tobeVaccinated = []
-        noofvaccinesperday = 2
-        days = 0
-        curr_date = datetime.date.today()
-        obj = Person.objects.all()
-        for elem in obj:
-            if not elem.isVaccinated:
-                tobeVaccinated.append(elem)
-        data = sorted(tobeVaccinated,key=cmp_to_key(comparator))
         
-        for elem in data:
-            if elem.dateofvaccination == None or elem.dateofvaccination <  curr_date:
-                elem.dateofvaccination = curr_date
-            days+=1
-            if days == noofvaccinesperday:
-                days = 0
-                curr_date += datetime.timedelta(1)
-            elem.save()
 
 
         serializer = PersonSerializer(data = request.data)
@@ -72,6 +55,28 @@ class PersonList(APIView):
         if serializer.is_valid():
             print("Hello World")
             serializer.save()
+            
+            tobeVaccinated = []
+            noofvaccinesperday = 2
+            days = 0
+            curr_date = datetime.date.today()
+            obj = Person.objects.all()
+            
+            for elem in obj:
+                if not elem.isVaccinated:
+                    tobeVaccinated.append(elem)
+            data = sorted(tobeVaccinated,key=cmp_to_key(comparator))
+        
+            for elem in data:
+                if elem.dateofvaccination == None or elem.dateofvaccination <  curr_date:
+                    elem.dateofvaccination = curr_date
+                days+=1
+                if days == noofvaccinesperday:
+                    days = 0
+                    curr_date += datetime.timedelta(1)
+                elem.save()
+
+
             data["success"] = "Update Successful"
             return Response(data,status = status.HTTP_201_CREATED)
         return Response(serializer.errors,status = status.HTTP_400_BAD_REQUEST)
