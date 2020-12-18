@@ -51,11 +51,11 @@ class PersonList(APIView):
         obj = Person.objects.filter(pk= request.data['aadhar_number'])
         print(obj)
         obj.delete()
-        data = {}
+        data1 = {}
         if serializer.is_valid():
             print("Hello World")
             serializer.save()
-            
+
             tobeVaccinated = []
             noofvaccinesperday = 2
             days = 0
@@ -77,8 +77,8 @@ class PersonList(APIView):
                 elem.save()
 
 
-            data["success"] = "Update Successful"
-            return Response(data,status = status.HTTP_201_CREATED)
+            data1["success"] = "Update Successful"
+            return Response(data1,status = status.HTTP_201_CREATED)
         return Response(serializer.errors,status = status.HTTP_400_BAD_REQUEST)
 
     # def post(self,request):
