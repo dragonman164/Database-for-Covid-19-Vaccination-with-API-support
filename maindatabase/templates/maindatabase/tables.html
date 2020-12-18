@@ -1,0 +1,60 @@
+{% extends "maindatabase/base.html" %}
+
+{% block title %}
+  <title>Available Data</title>
+{% endblock title %}
+
+{% block body %}
+  <body>
+    <div class="typewriter">
+        <div class="typewriter-text" >Table Wise Distribution of Population with Vaccination Status</div>
+      </div>
+    
+      <div class="typewriter">
+        <div class="typewriter-text" style="font-size:20px" >Latest Data was fetched at: {{time}} UTC</div>
+      </div>
+    
+      
+
+    <table class="table table-dark table-striped" style="table-layout:fixed; border: 40px solid white;border-collapse: collapse;">
+        <thead>
+          <tr>
+            <th scope="col">S No.</th>
+            <th scope="col" >Name</th>
+            <th scope="col">Aadhar Number</th>
+            <th scope="col">Area</th>
+            <th scope="col">Zone</th>
+            <th scope="col">Age</th>
+            <th scope="col">Occupation</th>
+            <th scope="col">Is at Risk?</th>
+            <th scope="col">Is Vaccinated?</th>
+            <th scope="col">Date of Vaccination</th>                
+          </tr>
+        </thead>
+        <tbody>
+          
+  {% for elem in Database %}
+       
+   
+            <tr>
+                <th scope="row">{{forloop.counter}}</th>
+                <td>{{elem.name}}</td>
+                <td>{{elem.aadhar_number}}</td>
+                <td>{{elem.area}}</td>
+                <td>{{elem.zone}}</td>
+                <td>{{elem.age}}</td>
+                <td>{{elem.occupation}}</td>
+                <td>{{elem.isatRisk}}</td>
+                <td>{{elem.isVaccinated}}</td>
+                <td>{{elem.dateofvaccination}}</td>
+              </tr>
+
+      {% endfor %} 
+             
+        
+        </tbody>
+      </table>
+
+
+  </body>
+{% endblock body %}
