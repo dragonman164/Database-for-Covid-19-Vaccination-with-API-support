@@ -1,5 +1,5 @@
 from django.shortcuts import render,HttpResponse
-from .models import Person
+from .models import Person,report,management
 import datetime
 from django.utils.timezone import utc
 from rest_framework import status
@@ -111,8 +111,12 @@ def license(request):
 
 def table(request):
     obj = Person.objects.all()
+    obj1 = report.objects.all()
+    obj2 = management.objects.all()
     params = {
         'Database': obj,
+        'Database1': obj1,
+        'Database2': obj2,
         'time': datetime.datetime.utcnow().replace(tzinfo=utc),
     }
     return render(request,"maindatabase/tables.html",params)
