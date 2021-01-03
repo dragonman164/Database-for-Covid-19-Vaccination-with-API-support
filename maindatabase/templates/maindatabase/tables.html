@@ -55,6 +55,73 @@
         </tbody>
       </table>
 
+      <table class="table table-dark table-striped" style="table-layout:fixed; border: 40px solid white;border-collapse: collapse;">
+        <thead>
+          <tr>
+            <th scope="col">S No.</th>
+            <th scope="col" >Name</th>
+            <th scope="col">Aadhar Number</th>
+            <th scope="col">Age</th>
+            <th scope="col">Description</th>
+            <th scope="col">FeverReported?</th>
+            <th scope="col">PainSeverity</th>
+            <th scope="col">AnyAllergies</th>                
+          </tr>
+        </thead>
+        <tbody>
+          
+  {% for elem in Database1 %}
+       
+   
+            <tr>
+                <th scope="row">{{forloop.counter}}</th>
+                <td>{{elem.name}}</td>
+                <td>{{elem.aadhar_number}}</td>
+                <td>{{elem.age}}</td>
+                <td>{{elem.description}}</td>
+                <td>{{elem.Fever}}</td>
+                <td>{{elem.Pain_Severity}}</td>
+                <td>{{elem.Any_allergies}}</td>
+              </tr>
+
+      {% endfor %} 
+             
+        
+        </tbody>
+      </table>
+      <table class="table table-dark table-striped" style="table-layout:fixed; border: 40px solid white;border-collapse: collapse;">
+        <thead>
+          <tr>
+            <th scope="col">S No.</th>
+            <th scope="col">Dateoftransportation</th>
+            <th scope="col">VaccineDispatched</th>
+            <th scope="col" >UsableVaccine</th>
+            <th scope="col">Temperature</th>
+            <th scope="col">Humidity</th>
+            <th scope="col">TrafficDensity</th>        
+          </tr>
+        </thead>
+        <tbody>
+          
+  {% for elem in Database2 %}
+       
+   
+            <tr>
+                <th scope="row">{{forloop.counter}}</th>
+                <td>{{elem.date_time}}</td>
+                <td>{{elem.No_vaccine_dispatched}}</td>
+                <td>{{elem.No_usable_vaccine}}</td>
+                <td>{{elem.Temperature}}</td>
+                <td>{{elem.Humidity}}</td>
+                <td>{{elem.traffic_density}}</td>
+              </tr>
+
+      {% endfor %} 
+
+        
+        </tbody>
+      </table>
+      <br>
 
   </body>
 {% endblock body %}
