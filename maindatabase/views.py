@@ -5,7 +5,7 @@ from django.utils.timezone import utc
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .serializers import PersonSerializer
+from .serializers import PersonSerializer,ReportSerializer,ManagementSerializer
 from functools import cmp_to_key
 
 
@@ -42,11 +42,7 @@ class PersonList(APIView):
         obj = Person.objects.all()
         serializer = PersonSerializer(obj,many=True)
         return Response(serializer.data)
-
     def put(self,request,*args,**kwargs):
-        
-
-
         serializer = PersonSerializer(data = request.data)
         obj = Person.objects.filter(pk= request.data['aadhar_number'])
         print(obj)
@@ -80,6 +76,26 @@ class PersonList(APIView):
             data1["success"] = "Update Successful"
             return Response(data1,status = status.HTTP_201_CREATED)
         return Response(serializer.errors,status = status.HTTP_400_BAD_REQUEST)
+class ReportList(APIView):
+    def get(self,request,*args,**kwargs):
+        obj = report.objects.all()
+        serializer = ReportSerializer(obj,many=True)
+        return Response(serializer.data)
+    def put(self,request,*args,**kwargs):
+        serializer = ReportSerializer(data = request.data)
+        if serializer.is_valid():
+            return Response(serializer.data,status = status.HTTP_201_CREATED)
+        return Response(serializer.errors,status = status.HTTP_400_BAD_REQUEST)
+class ManagementList(APIView):
+    def get(self,request,*args,**kwargs):
+        obj = management.objects.all()
+        serializer = ManagementSerializer(obj,many=True)
+        return Response(serializer.data)
+    def put(self,request,*args,**kwargs):
+        serializer = ManagementSerializer(data = request.data)
+        if serializer.is_valid():
+            return Response(serializer.data,status = status.HTTP_201_CREATED)
+        return Response(serializer.errors,status = status.HTTP_400_BAD_REQUEST)    
 
     # def post(self,request):
     #     serializer = PersonSerializer(data = request.data)
