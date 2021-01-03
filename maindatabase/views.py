@@ -81,9 +81,10 @@ class ReportList(APIView):
         obj = report.objects.all()
         serializer = ReportSerializer(obj,many=True)
         return Response(serializer.data)
-    def put(self,request,*args,**kwargs):
+    def post(self,request,*args,**kwargs):
         serializer = ReportSerializer(data = request.data)
         if serializer.is_valid():
+            serializer.save()
             return Response(serializer.data,status = status.HTTP_201_CREATED)
         return Response(serializer.errors,status = status.HTTP_400_BAD_REQUEST)
 class ManagementList(APIView):
@@ -91,9 +92,10 @@ class ManagementList(APIView):
         obj = management.objects.all()
         serializer = ManagementSerializer(obj,many=True)
         return Response(serializer.data)
-    def put(self,request,*args,**kwargs):
+    def post(self,request,*args,**kwargs):
         serializer = ManagementSerializer(data = request.data)
         if serializer.is_valid():
+            serializer.save()
             return Response(serializer.data,status = status.HTTP_201_CREATED)
         return Response(serializer.errors,status = status.HTTP_400_BAD_REQUEST)    
 
