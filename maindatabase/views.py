@@ -57,7 +57,6 @@ class PersonList(APIView):
         data1 = {}
         if serializer.is_valid():
             serializer.save()
-            tobeVaccinated = []
             noofvaccinesperday = 2
             days = 0
             curr_date = datetime.date.today()
@@ -145,6 +144,7 @@ class Person_without_aadhar_viewer(APIView):
       if serializer.is_valid():
         file_name = request.data['file']
         image_files = os.listdir('media/')
+        instance = serializer.save()
         if len(image_files) != 0:
             imagedata = []
             for image in image_files:
@@ -159,8 +159,37 @@ class Person_without_aadhar_viewer(APIView):
             for image in imagedata:
                 results = face_recognition.compare_faces([image],unknown_encoding)
                 if results[0] == True:
+                    instance.delete()
                     return Response({'Error':'This Person is in this database'})
-        serializer.save()
+        
+        noofvaccinesperday = 2
+        days = 0
+        curr_date = datetime.date.today()
+        obj = Person_without_Aadhar.objects.all()
+        current_zone = set()
+        zone_wise_data = {}
+        for elem in obj:
+            if not elem.isVaccinated:
+                current_zone.add(f'{elem.area} + {elem.zone}')
+        
+        for zones in current_zone:
+            zone_wise_data[zones] = []
+
+        for elem in obj:
+            if not elem.isVaccinated:
+                zone_wise_data[f'{elem.area} + {elem.zone}'].append(elem)
+    
+    
+        for elem in zone_wise_data.values():
+            days = 0
+            for person in elem:
+                if person.dateofvaccination == None or person.dateofvaccination <  curr_date:
+                    person.dateofvaccination = curr_date
+                days+=1
+                if days == noofvaccinesperday:
+                    days = 0
+                    curr_date += datetime.timedelta(1)
+                person.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
       else:
 
@@ -190,10 +219,12 @@ def table(request):
     obj = Person.objects.all()
     obj1 = report.objects.all()
     obj2 = management.objects.all()
+    obj3 = Person_without_Aadhar.objects.all()
     params = {
         'Database': obj,
         'Database1': obj1,
         'Database2': obj2,
+        'Database3':obj3,
         'time': datetime.datetime.utcnow().replace(tzinfo=utc),
     }
     return render(request,"maindatabase/tables.html",params)

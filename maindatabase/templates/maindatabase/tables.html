@@ -7,7 +7,7 @@
 {% block body %}
   <body>
     <div class="typewriter">
-        <div class="typewriter-text" >Table Wise Distribution of Population with Vaccination Status</div>
+        <div class="typewriter-text" >Welcome to Database</div>
       </div>
     
       <div class="typewriter">
@@ -15,7 +15,7 @@
       </div>
     
       
-
+<h3 style="text-align:center">Vaccination Databse (With Aadhar)</h3>
     <table class="table table-dark table-striped" style="table-layout:fixed; border: 40px solid white;border-collapse: collapse;">
         <thead>
           <tr>
@@ -55,6 +55,8 @@
         </tbody>
       </table>
 
+      <h3 style="text-align:center">Database for AEFI/AESI</h3>
+
       <table class="table table-dark table-striped" style="table-layout:fixed; border: 40px solid white;border-collapse: collapse;">
         <thead>
           <tr>
@@ -89,6 +91,9 @@
         
         </tbody>
       </table>
+
+      <h3 style="text-align:center">Database for Vaccine Logistics</h3>
+
       <table class="table table-dark table-striped" style="table-layout:fixed; border: 40px solid white;border-collapse: collapse;">
         <thead>
           <tr>
@@ -124,4 +129,52 @@
       <br>
 
   </body>
+
+
+
+</tbody>
+</table>
+
+<h3 style="text-align:center">Vaccination Databse (Without Aadhar)</h3>
+
+<table class="table table-dark table-striped" style="table-layout:fixed; border: 40px solid white;border-collapse: collapse;">
+  <thead>
+    <tr>
+      <th scope="col">S No.</th>
+      <th scope="col">Name</th>
+      <th scope="col">Area</th>
+      <th scope="col" >Zone</th>
+      <th scope="col">Age</th>
+      <th scope="col">Occupation</th>
+      <th scope="col">Is at Risk?</th>
+      <th scope="col">Date of Vaccination</th>
+      <th scope="col">Is Vaccinated?</th>         
+    </tr>
+  </thead>
+  <tbody>
+    
+{% for elem in Database3 %}
+ 
+
+      <tr>
+          <th scope="row">{{forloop.counter}}</th>
+          <td>{{elem.name}}</td>
+          <td>{{elem.area}}</td>
+          <td>{{elem.zone}}</td>
+          <td>{{elem.age}}</td>
+          <td>{{elem.occupation}}</td>
+          <td>{{elem.isatRisk}}</td>
+          <td>{{elem.dateofvaccination}}</td>
+          <td>{{elem.isVaccinated}}</td>
+
+        </tr>
+
+{% endfor %} 
+
+  
+  </tbody>
+</table>
+<br>
+
+</body>
 {% endblock body %}
