@@ -14,7 +14,12 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path
-from .views import index,license,table,PersonList,ReportList,ManagementList
+from django.conf.urls import url,include
+from .views import index,license,table,PersonList,ReportList,ManagementList,Person_without_aadhar_viewer
+from rest_framework.routers import DefaultRouter
+
+
+
 
 urlpatterns = [
     path('',index,name="Index"),
@@ -22,6 +27,8 @@ urlpatterns = [
     path('table/',table,name="table"),
     path('api/',PersonList.as_view(),name="API"),
     path('api1/',ReportList.as_view(),name="API1"),
-    path('api2/',ManagementList.as_view(),name="API2")
+    path('api2/',ManagementList.as_view(),name="API2"),
+    url('api3/',Person_without_aadhar_viewer.as_view(),name="API3"),
+    # path('api3/',Person_without_aadhar_viewer,name="API3")
 
 ]
