@@ -182,7 +182,6 @@ class Person_without_aadhar_viewer(APIView):
     
         for elem in zone_wise_data.values():
             new_elem = sorted(elem,key=cmp_to_key(comparator))
-            print(new_elem)
             days = 0
             for person in new_elem:
                 if person.dateofvaccination == None or person.dateofvaccination <  curr_date:
