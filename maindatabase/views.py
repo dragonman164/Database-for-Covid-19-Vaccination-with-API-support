@@ -77,8 +77,9 @@ class PersonList(APIView):
         
         
             for elem in zone_wise_data.values():
+                new_elem = sorted(elem,key=cmp_to_key(comparator))
                 days = 0
-                for person in elem:
+                for person in new_elem:
                     if person.dateofvaccination == None or person.dateofvaccination <  curr_date:
                         person.dateofvaccination = curr_date
                     days+=1
@@ -179,10 +180,11 @@ class Person_without_aadhar_viewer(APIView):
             if not elem.isVaccinated:
                 zone_wise_data[f'{elem.area} + {elem.zone}'].append(elem)
     
-    
         for elem in zone_wise_data.values():
+            new_elem = sorted(elem,key=cmp_to_key(comparator))
+            print(new_elem)
             days = 0
-            for person in elem:
+            for person in new_elem:
                 if person.dateofvaccination == None or person.dateofvaccination <  curr_date:
                     person.dateofvaccination = curr_date
                 days+=1
