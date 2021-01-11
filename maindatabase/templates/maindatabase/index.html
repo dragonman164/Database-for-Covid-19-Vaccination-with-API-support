@@ -7,15 +7,18 @@
 {% block body %}
   
 {% load static %}
-<img src="{% static 'maindatabase/mainpage.jpg' %}" width="500" height="500" align="left">
+<div class="center">
+  <!-- <img src="{% static 'maindatabase/mainpage.jpg' %}" width="300" height="300" > -->
+</div>
+
 
 <div class="container">
-    <p class="typewriter-text" style="font-size:35px;">Total Records Available:{{Total}}</p>  </div>
+    <p  style="font-size:35px;text-align: center;font-weight:bold">Total Records Available:{{Total}}</p>  </div>
     
     <div class="container">
-    <p class="typewriter-text" style="font-size:35px; color:rgb(40, 104, 4)">Number of People Vaccinated:{{Vaccinated}}</p> </div>
+    <p  style="font-size:35px; color:rgb(40, 104, 4);text-align: center;font-weight: bold;">Number of People Vaccinated:{{Vaccinated}}</p> </div>
 
     <div class="container">
-        <p class="typewriter-text" style="font-size:35px; color:red">Number of People to be Vaccinated:{{TobeVaccinated}}</p> </div>
+        <p  style="font-size:35px; color:red;text-align: center;font-weight: bold;">Number of People to be Vaccinated:{{TobeVaccinated}}</p> </div>
     
 {% endblock body %}

@@ -1,3 +1,4 @@
+import pandas as pd
 from django.http import response
 from django.shortcuts import render,HttpResponse
 from .models import Person,report,management,Person_without_Aadhar
@@ -11,6 +12,8 @@ from .serializers import PersonSerializer,ReportSerializer,ManagementSerializer,
 from functools import cmp_to_key
 import face_recognition
 import os
+from sklearn.model_selection import train_test_split as tts
+from sklearn.linear_model import LogisticRegression
 
 
 
@@ -117,10 +120,35 @@ class ManagementList(APIView):
         return Response(serializer.data)
     
     def post(self,request,*args,**kwargs):
+        
         serializer = ManagementSerializer(data = request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data,status = status.HTTP_201_CREATED)
+            obj = management.objects.all()
+            data_for_ml = {
+            'No_vaccine_dispatched':[],
+            'No_usable_vaccine':[],
+            'Temperature': [],
+            'Humidity':[],
+            'traffic_density':[],
+            }
+            obj = management.objects.all()
+            for elem in obj:
+                data_for_ml['No_vaccine_dispatched'].append(elem.No_vaccine_dispatched)
+                data_for_ml['No_usable_vaccine'].append(elem.No_usable_vaccine)
+                data_for_ml['Temperature'].append(elem.Temperature)
+                data_for_ml['Humidity'].append(elem.Humidity)
+                data_for_ml['traffic_density'].append(elem.traffic_density)
+            data = pd.DataFrame(data_for_ml)
+            X = data.drop(['No_usable_vaccine','traffic_density'],axis=1)
+            Y = data['No_usable_vaccine']
+            X_train, X_test, Y_train, Y_test = tts(X, Y, test_size=0.2,random_state=4)
+            lr = LogisticRegression()
+            lr.fit(X_train, Y_train)
+            # print(data.tail(1).drop(['No_usable_vaccine','traffic_density'],axis=1))
+            Y_pred = lr.predict(data.tail(1).drop(['No_usable_vaccine','traffic_density'],axis=1))
+            serializer = ManagementSerializer(obj,many=True)
+            return Response({"Success":f"{Y_pred[0]}"},status = status.HTTP_201_CREATED)
         return Response(serializer.errors,status = status.HTTP_400_BAD_REQUEST)   
 
 
